@@ -36,14 +36,19 @@ export default function App() {
   
 
   const countTokens = async () => {
+    console.log("Getting tokens count...");
+        setOutput("Getting tokens count...");
     const res = await api.get('/api/tokens');
-   
+   console.log("Tokens count:",JSON.stringify(res.data, null, 2));
      setOutput(JSON.stringify(res.data, null, 2));
     
   };
 
    const countTokensAll = async () => {
+     console.log("Getting all tokens count...");
+        setOutput("Getting all tokens count...");
     const res = await api.get('/api/tokens/all');
+    console.log("All tokens count:",JSON.stringify(res.data, null, 2));
      setOutput(JSON.stringify(res.data, null, 2));
     
   };
@@ -54,6 +59,8 @@ export default function App() {
 
   const createWorkflow = async () => {
      // Create workflow
+        console.log("Creating workflow...");
+        setOutput("Creating workflow...");
                 const createworkflowres = await api.post("/api/workflow", {
                               name: "My Workflow",
                               steps: [
@@ -72,6 +79,8 @@ export default function App() {
 
   const runWorkflow = async () => {
                 // Run workflow
+                console.log("Running workflow...");
+                    setOutput("Running workflow...");
                     const id = localStorage.getItem("workflowId");
 
                     if (!id) {
