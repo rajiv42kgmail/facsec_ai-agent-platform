@@ -2,6 +2,7 @@
 import React,{useState,useEffect} from 'react';
 import axios from 'axios';
 import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 
 const api = axios.create({ baseURL: 'http://localhost:5000' });
 api.interceptors.request.use((config) => {
@@ -26,9 +27,7 @@ export default function App() {
   const resetlogin = async () => {
     localStorage.clear();
 
-    /* localStorage.removeItem('token');
-     localStorage.removeItem('userdata');
-      localStorage.removeItem('role');*/
+  
      setIsLoggedIn(false);
   };
   
@@ -97,12 +96,18 @@ export default function App() {
                       console.log("Waiting for approval...");
                          setOutput("Waiting for approval..."); 
                       // Auto approve (for demo)
-                      await api.post("/api/approve", {
+                     const resapprove = await api.post("/api/approve", {
                         approvalId: res.data.approvalId
                       });
-
-                      setOutput("Approved!");
-                       console.log("Approved!");
+                      
+                      if(resapprove.data.status === 'approved') {
+                        setOutput("Approved!");
+                        console.log("Approved!");
+                      } else {
+                        setOutput("Error in getting response of Approval status!");
+                        console.log("Error in getting response of Approval status!");
+                      }
+                      
                     } else {
                       setOutput("Completed: " +JSON.stringify(res.data, null, 2));
                        console.log("Completed: " , res.data);
@@ -111,10 +116,13 @@ export default function App() {
   return (
      <div>
             {!isLoggedIn ? (
+               <>
+              <RegisterForm  />
               <LoginForm onLogin={() => setIsLoggedIn(true)} />
+                </>
             ) : (
               <>
-                 <h2>Welcome {localStorage.getItem('role')} !!!</h2>  
+                 <h2>Welcome {localStorage.getItem('role')} : {localStorage.getItem("username")}!!!</h2>  
                 <button onClick={resetlogin}>Logout</button>
                 <button onClick={createWorkflow}>Create Workflow</button>
                 <button onClick={runWorkflow}>Run Workflow</button>

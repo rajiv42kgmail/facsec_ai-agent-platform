@@ -11,7 +11,7 @@ export default function LoginForm({ onLogin }) {
         email,
         password
       });
-     
+      localStorage.setItem("username", res.data.user.email);
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("role", res.data.user.role);
       localStorage.setItem("userdata", JSON.stringify(res.data, null, 2));

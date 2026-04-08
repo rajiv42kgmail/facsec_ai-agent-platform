@@ -25,11 +25,7 @@ let pendingApprovals = {};
 
 // ===== AUTH (JWT) =====
 app.post('/api/register', (req, res) => {
-  let setrole;
-  if(req.body.email == "admin@test.com")  setrole="admin";
-  else  setrole="user";
-
-  const user = { id: Date.now(), email: req.body.email, role: setrole };
+  const user = { id: Date.now(), email: req.body.email, role: req.body.role };
   users.push(user);
   const token = jwt.sign(user, SECRET);
   res.json({ user });
@@ -77,15 +73,13 @@ function auth(req, res, next) {
 
 // ===== TOKEN TRACKING =====
 
-function trackTokens(userId, usage) {
+function trackTokens(userId,userName, usage) {
   if (!userId) return;
 
   tokens[userId] = (tokens[userId] || 0) + (usage || 0);
-
+ 
   console.log(`User ${userId} tokens:`, tokens[userId]); // debug
 }
-
-
 
 
 
@@ -132,7 +126,7 @@ app.post('/api/workflow/run/:id', auth, async (req, res) => {
     try {
       if (step.type === 'agent') {
         const out = await callAI(context.input);
-        trackTokens(req.user.id, out.usage);
+        trackTokens(req.user.id,req.user.email, out.usage);
         context.results.push(out.text);
       }
 
@@ -191,6 +185,7 @@ app.post('/api/webhook', (req, res) => {
 app.get('/api/tokens', auth, (req, res) => {
   res.json({
     userId: req.user.id,
+    username: req.user.email,
     totalTokens: tokens[req.user.id] || 0
   });
 });
