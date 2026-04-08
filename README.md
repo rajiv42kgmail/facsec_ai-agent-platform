@@ -1,6 +1,7 @@
 # facsec_ai-agent-platform
-Ai agent platform for Fac security organization as a task
-Requirements:
+Ai agent platform for Fac security organization as a task.
+
+// ================= Requirements =================
 1.⁠ ⁠multi-ai agent
 2.⁠ ⁠admin & user panels
 3.⁠ ⁠token monitoring
