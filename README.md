@@ -1,5 +1,13 @@
 # facsec_ai-agent-platform
 Ai agent platform for Fac security organization as a task
+Requirements:
+1.⁠ ⁠multi-ai agent
+2.⁠ ⁠admin & user panels
+3.⁠ ⁠token monitoring
+4.⁠ ⁠n8n workflow type using agent ( 1 ai agent + 1 tool+webhook(optional))
+5.⁠ ⁠frontend end can simple 
+6.⁠ ⁠human loop in the loop
+
 // ================= ENTERPRISE FEATURES =================
 /*
 * JWT Authentication
